@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Hendrik's SUPER AWESOME Snake Game - Unit Tests</title>
+ 
+  <link rel="stylesheet" href="qunit-1.19.0.css">
+  <script src="jquery-1.11.2.min.js" type="text/javascript"></script>
+  <script src="qunit-1.19.0.js"></script>
+  <script src="snake.js"></script>
+ 
+  <script>    
+  QUnit.test("calcMargin", function( assert ) {
+      assert.equal(calcMargin(100, 50), 25);
+      assert.equal(calcMargin(10, 5), 3);
+  });
+      
+  QUnit.test("arrayContainsCoordinates", function( assert ) {
+      var array = [
+          {x:1,y:2},
+          {x:2,y:2},
+          {x:4,y:3},
+          {x:3,y:5}
+      ];
+      assert.equal(arrayContainsCoordinates(array, {x:2,y:1}), false);
+      assert.equal(arrayContainsCoordinates(array, {x:1,y:2}), true);
+  });
+      
+  QUnit.test("whichHead", function( assert ) {
+      assert.equal(whichHead(UP), SPRITE_LOCATIONS.head.up);
+      assert.equal(whichHead(DOWN), SPRITE_LOCATIONS.head.down);
+      assert.equal(whichHead(RIGHT), SPRITE_LOCATIONS.head.right);
+      assert.equal(whichHead(LEFT), SPRITE_LOCATIONS.head.left);
+  });
+      
+  QUnit.test("whichBody", function( assert ) {
+      assert.equal(whichBody(UP), SPRITE_LOCATIONS.body.up);
+      assert.equal(whichBody(DOWN), SPRITE_LOCATIONS.body.down);
+      assert.equal(whichBody(RIGHT), SPRITE_LOCATIONS.body.right);
+      assert.equal(whichBody(LEFT), SPRITE_LOCATIONS.body.left);
+  });
+      
+  QUnit.test("whichTail", function( assert ) {
+      assert.equal(whichTail(UP), SPRITE_LOCATIONS.tail.up);
+      assert.equal(whichTail(DOWN), SPRITE_LOCATIONS.tail.down);
+      assert.equal(whichTail(RIGHT), SPRITE_LOCATIONS.tail.right);
+      assert.equal(whichTail(LEFT), SPRITE_LOCATIONS.tail.left);
+  });
+      
+  QUnit.test("currentDirection", function( assert ) {
+      assert.equal(currentDirection({x:1,y:1}, {x:1,y:2}, UP), UP);
+      assert.equal(currentDirection({x:1,y:1}, {x:1,y:0}, DOWN), DOWN);
+      assert.equal(currentDirection({x:1,y:1}, {x:2,y:1}, LEFT), LEFT);
+      assert.equal(currentDirection({x:1,y:1}, {x:0,y:1}, RIGHT), RIGHT);
+      
+      assert.equal(currentDirection({x:1,y:1}, {x:2,y:1}, UP), RIGHT);
+      assert.equal(currentDirection({x:1,y:1}, {x:0,y:1}, UP), LEFT);
+      
+      assert.equal(currentDirection({x:1,y:1}, {x:2,y:1}, DOWN), RIGHT);
+      assert.equal(currentDirection({x:1,y:1}, {x:0,y:1}, DOWN), LEFT);
+      
+      assert.equal(currentDirection({x:1,y:1}, {x:1,y:2}, LEFT), DOWN);
+      assert.equal(currentDirection({x:1,y:1}, {x:1,y:0}, LEFT), UP);
+      
+      assert.equal(currentDirection({x:1,y:1}, {x:1,y:2}, RIGHT), DOWN);
+      assert.equal(currentDirection({x:1,y:1}, {x:1,y:0}, RIGHT), UP);
+  });
+      
+  QUnit.test("isBend", function( assert ) {
+      assert.equal(isBend({x:1,y:2}, {x:2,y:1}), true);
+      assert.equal(isBend({x:2,y:1}, {x:1,y:2}), true);
+      assert.equal(isBend({x:0,y:1}, {x:1,y:2}), true);
+      assert.equal(isBend({x:2,y:1}, {x:1,y:0}), true);
+      assert.equal(isBend({x:1,y:1}, {x:1,y:1}), false);
+  });
+      
+  QUnit.test("whichBend", function( assert ) {
+      assert.equal(whichBend({x:1,y:2}, {x:0,y:1}, {x:1,y:1}), SPRITE_LOCATIONS.bend.left_down);
+      assert.equal(whichBend({x:0,y:1}, {x:1,y:2}, {x:1,y:1}), SPRITE_LOCATIONS.bend.left_down);
+      assert.equal(whichBend({x:2,y:1}, {x:1,y:2}, {x:1,y:1}), SPRITE_LOCATIONS.bend.right_down);
+      assert.equal(whichBend({x:1,y:2}, {x:2,y:1}, {x:1,y:1}), SPRITE_LOCATIONS.bend.right_down);
+      assert.equal(whichBend({x:0,y:1}, {x:1,y:0}, {x:1,y:1}), SPRITE_LOCATIONS.bend.left_up);
+      assert.equal(whichBend({x:1,y:0}, {x:0,y:1}, {x:1,y:1}), SPRITE_LOCATIONS.bend.left_up);
+      assert.equal(whichBend({x:1,y:0}, {x:2,y:1}, {x:1,y:1}), SPRITE_LOCATIONS.bend.right_up);
+      assert.equal(whichBend({x:2,y:1}, {x:1,y:0}, {x:1,y:1}), SPRITE_LOCATIONS.bend.right_up);
+  });
+      
+  QUnit.test("reverseDirection", function( assert ) {
+      assert.equal(reverseDirection(UP), DOWN);
+      assert.equal(reverseDirection(DOWN), UP);
+      assert.equal(reverseDirection(RIGHT), LEFT);
+      assert.equal(reverseDirection(LEFT), RIGHT);
+      assert.equal(reverseDirection(ENTER), ENTER);
+      assert.equal(reverseDirection(ESC), ESC);
+      assert.equal(reverseDirection(32), 32);
+  }); 
+  </script>
+</head>
+<body>
+ 
+<div id="qunit"></div>
+<canvas id="canvas" style="display: none"></canvas>
+
+</body>
+</html>
