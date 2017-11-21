@@ -1,5 +1,5 @@
-# robo-snake
+# Robo-Snake
 
-hendrikcrause.github.io/robo-snake
+https://hendrikcrause.github.io/robo-snake
 
 Just another version of snake
